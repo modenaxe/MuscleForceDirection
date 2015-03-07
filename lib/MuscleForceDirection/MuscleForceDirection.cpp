@@ -184,7 +184,7 @@ void MuscleForceDirection::constructColumnLabels()
 	const Set<Muscle> muscleSet = _model->getMuscles();
 
 	// Get the indexes of the muscles attached to the specified bodies.
-	GetMusclesIndexForBody(_model,  _bodyNames, _muscleIndices);
+    _muscleIndices = getMusclesIndexForBody(_model, _bodyNames);
 	int j;
 // ============= LABELS ======================
 	Array<string> labels;
@@ -330,7 +330,7 @@ int MuscleForceDirection::record(const SimTK::State& s)
 		}
 		else
 		{	// Indexes identify as described in the body of function (below).		
-			EffectiveAttachments(PFDs,  FirstIndex, LastIndex);		
+			getEffectiveAttachments(PFDs,  FirstIndex, LastIndex);		
 		}
 
 		// creation of a convenient array to store the indexes
@@ -481,7 +481,7 @@ int MuscleForceDirection::printResults(const string &aBaseName,const string &aDi
 // UTILITIES Utilities implemented by Luca Modenese (check on 15th March 2012).
 
 // IsMuscleAttachedToBody:  the function tells if a given Muscle is connected to a Body (specified by a BodyName)
-bool MuscleForceDirection::IsMuscleAttachedToBody(Muscle &aMuscle, string aBodyName)
+bool MuscleForceDirection::isMuscleAttachedToBody(const Muscle &aMuscle, const string& aBodyName)
 {
 	bool Attached = false;
 	OpenSim::GeometryPath  aGeometryPath = aMuscle.getGeometryPath();
@@ -502,19 +502,20 @@ bool MuscleForceDirection::IsMuscleAttachedToBody(Muscle &aMuscle, string aBodyN
 }
 
 // Given a pointer to a model and a string array of Body names, the indexes of the attached muscles are returned.
-void MuscleForceDirection::GetMusclesIndexForBody(Model * _model, Array<std::string> aBodyNameSet, Array<int>  & MusclesIndexForBody )
+Array<int> MuscleForceDirection::getMusclesIndexForBody(Model* model, const Array<std::string>& bodyNames)
 {
 	// Entire muscleset
-	const Set<Muscle>  muscles = _model->getMuscles();
+	const Set<Muscle>  muscles = model->getMuscles();
+    Array<int> musclesIndexForBody;
 
 	// CASE 1: the 'all' flag is considered: all muscles will be analyzed.
-	if	(_bodyNames[0]=="all")
+    if (bodyNames[0] == "all")
 	{
 		// Get all the muscles and their number
-		MusclesIndexForBody.setSize(muscles.getSize());	
+        musclesIndexForBody.setSize(muscles.getSize());
 		// Get indices of all the muscles.
 		for(int j=0;j<muscles.getSize();j++)
-			MusclesIndexForBody[j]=j;
+            musclesIndexForBody[j] = j;
 	}
 
 	// CASE 2: choice of subset of segments
@@ -524,9 +525,9 @@ void MuscleForceDirection::GetMusclesIndexForBody(Model * _model, Array<std::str
 		
 		OpenSim::Array<int> MusclesIndexForBody_temp;
 		//OpenSim::Set<OpenSim::Muscle>  muscles = _model->getMuscles();
-		for (int n_body = 0; n_body<aBodyNameSet.getSize(); n_body++)
+		for (int n_body = 0; n_body<bodyNames.getSize(); ++n_body)
 		{
-			std::string aBodyName = aBodyNameSet.get(n_body);
+			std::string aBodyName = bodyNames.get(n_body);
 
 			/*----------------NOTE------------------------------------------------------------
 			Here an array of indexes MusclesIndexForBody_temp is created checking all the muscles
@@ -534,15 +535,15 @@ void MuscleForceDirection::GetMusclesIndexForBody(Model * _model, Array<std::str
 			NB: The array containes double indexes.
 			----------------------------------------------------------------------------------*/
 				
-				for(int n_mus = 0; n_mus<muscles.getSize(); n_mus++)		
+			for(int n_mus = 0; n_mus<muscles.getSize(); n_mus++)		
+			{
+				if (isMuscleAttachedToBody(muscles[n_mus], aBodyName))
 				{
-					if (IsMuscleAttachedToBody(muscles[n_mus], aBodyName))
-					{
-						MusclesIndexForBody_temp.set(k,muscles.getIndex(muscles[n_mus].getName()));
-						k++;
-					}
-
+					MusclesIndexForBody_temp.set(k,muscles.getIndex(muscles[n_mus].getName()));
+					k++;
 				}
+
+			}
 		}
 
 		/*----------------NOTE------------------------------------------------------------
@@ -552,6 +553,8 @@ void MuscleForceDirection::GetMusclesIndexForBody(Model * _model, Array<std::str
 		If no index in the following components is found then the index is saved.
 		Each muscle is counted only once here!
 		----------------------------------------------------------------------------------*/
+        //TODO: change this using std::unique
+
 		for (int n_ind = 0; n_ind<MusclesIndexForBody_temp.getSize();n_ind++)
 		{
 			bool check=false;
@@ -569,17 +572,19 @@ void MuscleForceDirection::GetMusclesIndexForBody(Model * _model, Array<std::str
 			// If no index in the following components is found then the index is saved.
 			if (!check)
 			{
-					MusclesIndexForBody.set(n,MusclesIndexForBody_temp[n_ind]);
-					n++;
+                musclesIndexForBody.set(n, MusclesIndexForBody_temp[n_ind]);
+				n++;
 			}
 		}
-	}	
+	} // end else
+
+    return musclesIndexForBody;
 }
 
 
 
 // EffectiveAttachments:
-void MuscleForceDirection::EffectiveAttachments(Array<PointForceDirection*> & aPFDs, int & effecInsertProx, int & effecInsertDist)
+void MuscleForceDirection::getEffectiveAttachments(const Array<PointForceDirection*>& aPFDs, int& effecInsertProx, int& effecInsertDist)
 {
 		int N_points = aPFDs.getSize();
 
@@ -591,33 +596,33 @@ void MuscleForceDirection::EffectiveAttachments(Array<PointForceDirection*> & aP
 
 		Body InitialBody = aPFDs[0]->body();
 		std::string InitialBodyName = InitialBody.getName();
-			//int effecInsertProx;
-			for(int n=0;n<N_points;n++)
+		//int effecInsertProx;
+		for(int n=0;n<N_points;n++)
+		{
+			Body FollowBody = aPFDs[n]->body();
+			if(InitialBodyName!=FollowBody.getName())
 			{
-				Body FollowBody = aPFDs[n]->body();
-				if(InitialBodyName!=FollowBody.getName())
-				{
-					effecInsertProx = n-1;
-					break;
-				}
+				effecInsertProx = n-1;
+				break;
 			}
+		}
 
-			/*---------------NOTE----------------------- 
-			From the last body a check is performed on the previous
-			pathpoints until the point attached to a different segment
-			is found. The previous point is the effective insertion.
-			--------------------------------------------*/
-			Body FinalBody = aPFDs[N_points-1]->body();
-			std::string FinalBodyName = FinalBody.getName();
-			for(int n=N_points-1;n>=0;n--)
+		/*---------------NOTE----------------------- 
+		From the last body a check is performed on the previous
+		pathpoints until the point attached to a different segment
+		is found. The previous point is the effective insertion.
+		--------------------------------------------*/
+		Body FinalBody = aPFDs[N_points-1]->body();
+		std::string FinalBodyName = FinalBody.getName();
+		for(int n=N_points-1;n>=0;n--)
+		{
+			Body PreviousBody = aPFDs[n]->body();
+			if(FinalBodyName!=PreviousBody.getName())
 			{
-				Body PreviousBody = aPFDs[n]->body();
-				if(FinalBodyName!=PreviousBody.getName())
-				{
-					effecInsertDist = n+1;
-					break;
-				}
+				effecInsertDist = n+1;
+				break;
 			}
+		}
 }
 
 // NormalizeVec3 is an inline function to calculate the norm of a vector Vec3.

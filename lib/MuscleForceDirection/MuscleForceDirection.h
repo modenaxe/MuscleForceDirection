@@ -111,9 +111,9 @@ protected:
 	// Utilities implemented by Luca Modenese (check on 15th March 2012).
 	void constructDescriptionAttachments();
 	void setupStorageAttachments();
-	bool IsMuscleAttachedToBody(OpenSim::Muscle &aMuscle, std::string aBodyName);
-	void GetMusclesIndexForBody(OpenSim::Model * _model, Array<std::string> aBodyNameSet, Array<int>  & MusclesIndexForBody );
-	void MuscleForceDirection::EffectiveAttachments(Array<PointForceDirection*> & aPFDs, int & effecInsertProx, int & effecInsertDist);
+    static Array<int> getMusclesIndexForBody(Model* model, const Array<std::string>& bodyNames);
+    static bool isMuscleAttachedToBody(const OpenSim::Muscle& aMuscle, const std::string& aBodyName);
+	static void getEffectiveAttachments(const Array<PointForceDirection*>& aPFDs, int& effecInsertProx, int& effecInsertDist);
 	inline void NormalizeVec3(SimTK::Vec3 & v1, SimTK::Vec3 & rNormv1);
 
 }; // END of class MuscleForceDirection
