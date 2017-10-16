@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSimDocument Version="20302">
+	<Model name="MuscleForceDirection Test Model">
+		<defaults/>
+		<credits> Luca Modenese (l.modenese08@imperial.ac.uk)</credits>
+		<publications> This is an example model distributed with the MuscleForceDirection plugin </publications>
+		<ForceSet name="">
+			<objects>
+				<Thelen2003Muscle name="MuscleStraight">
+					<GeometryPath name="">
+						<PathPointSet name="">
+							<objects>
+								<PathPoint name="Straight-P1">
+									<location>      0.00000000      0.000000000       0.00000000 </location>
+									<body> ground </body>
+								</PathPoint>
+								<PathPoint name="Straight-P2">
+									<location>      0.300000000       0.00000000      0.00000000 </location>
+									<body> MovingBody </body>
+								</PathPoint>
+							</objects>
+							<groups/>
+						</PathPointSet>
+					</GeometryPath>
+				</Thelen2003Muscle>
+				<Thelen2003Muscle name="MuscleViaPoint">
+					<GeometryPath name="">
+						<PathPointSet name="">
+							<objects>
+								<PathPoint name="ViaPoint-P1">
+									<location>       -0.200000000      0.000000000       0.100000000 </location>
+									<body> ground </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P2">
+									<location>      -0.3000      0.000       0.100000 </location>
+									<body> ground </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P3">
+									<location>       -0.200000000      -0.2000       0.1000000000 </location>
+									<body> ground </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P3">
+									<location>       0.00000000      0.000000000       0.100000000 </location>
+									<body> ground </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P3">
+									<location>       0.300000000      0.000000000       0.100000000 </location>
+									<body> MovingBody </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P4">
+									<location>        0.50000000      0.2000       0.1000000000 </location>
+									<body> MovingBody </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P5">
+									<location>       0.7000      0.000       0.100000 </location>
+									<body> MovingBody </body>
+								</PathPoint>
+								<PathPoint name="ViaPoint-P5">
+									<location>     0.5000      0.000       0.100000 </location>
+									<body> MovingBody </body>
+								</PathPoint>	
+							</objects>
+							<groups/>
+						</PathPointSet>
+					</GeometryPath>
+				</Thelen2003Muscle>
+				<Thelen2003Muscle name="MuscleWrap">
+					<GeometryPath name="">
+						<PathPointSet name="">
+							<objects>
+								<PathPoint name="Wrap-P1">
+									<location>      0.300000000      0.000000000       0.2000000000 </location>
+									<body> ground </body>
+								</PathPoint>
+								<PathPoint name="Wrap-P5">
+									<location>       -0.300000000      0.000000000       0.2000000000 </location>
+									<body> MovingBody </body>
+								</PathPoint>
+							</objects>
+							<groups/>
+						</PathPointSet>
+						<PathWrapSet name="">
+							<objects>
+								<PathWrap name="">
+									<wrap_object> WRAP </wrap_object>
+									<method> axial </method>
+									<range> -1 -1 </range>
+								</PathWrap>
+							</objects>
+							<groups/>
+						</PathWrapSet>
+					</GeometryPath>
+				</Thelen2003Muscle>
+			</objects>
+			<groups/>
+		</ForceSet>
+		<length_units> meters </length_units>
+		<force_units> N </force_units>
+		<!--Acceleration due to gravity.-->
+		<gravity>       0.00000000      -9.80660000       0.00000000 </gravity>
+		<!--Bodies in the model.-->
+		<BodySet name="">
+			<objects>
+				<Body name="ground">
+					<mass>       0.00000000 </mass>
+					<mass_center>       0.00000000       0.00000000       0.00000000 </mass_center>
+					<inertia_xx>       0.00000000 </inertia_xx>
+					<inertia_yy>       0.00000000 </inertia_yy>
+					<inertia_zz>       0.00000000 </inertia_zz>
+					<inertia_xy>       0.00000000 </inertia_xy>
+					<inertia_xz>       0.00000000 </inertia_xz>
+					<inertia_yz>       0.00000000 </inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint/>
+					<VisibleObject name="">
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl,
+						    .obj-->
+						<GeometrySet name="">
+							<objects>
+								<DisplayGeometry name="">
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file> treadmill.vtp </geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color>       1.00000000       1.00000000       1.00000000 </color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file>  </texture_file>
+									<!--in body transform specified as 3 rotations (rad) followed by 3
+									    translations rX rY rZ tx ty tz-->
+									<transform>      -0.00000000       0.00000000      -0.00000000       0.00000000       0.00000000       0.00000000 </transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors>       1.00000000       1.00000000       1.00000000 </scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+							    <display_preference> 4 </display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>       1.00000000 </opacity>
+								</DisplayGeometry>
+								</objects>
+							<groups/>
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors>       0.1500000000       0.1500000000       0.1500000000 </scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by
+						    3 translations rX rY rZ tx ty tz-->
+						<transform>      -0.00000000       0.00000000      -0.00000000       0.00000000       0.00000000       0.00000000 </transform>
+						<!--Whether to show a coordinate frame-->
+							<show_axes> false </show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for
+						    individual geometries-->
+						<display_preference> 4 </display_preference>
+					</VisibleObject>
+				</Body>
+				<Body name="MovingBody">
+					<mass>       0.0 </mass>
+					<mass_center>       0.00000000      0.0       0.00000000 </mass_center>
+					<inertia_xx>       0.00000000 </inertia_xx>
+					<inertia_yy>       0.00000000 </inertia_yy>
+					<inertia_zz>       0.00000000 </inertia_zz>
+					<inertia_xy>       0.00000000 </inertia_xy>
+					<inertia_xz>       0.00000000 </inertia_xz>
+					<inertia_yz>       0.00000000 </inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="MainJoint">
+							<parent_body> ground </parent_body>
+							<location_in_parent>       0.00000000       0.00000000       0.00000000  </location_in_parent>
+							<orientation_in_parent>       0.00000000       0.00000000       0.00000000 </orientation_in_parent>
+							<location>       0.00000000       0.00000000       0.00000000 </location>
+							<orientation>       0.00000000       0.00000000       0.00000000 </orientation>
+							<!--Generalized coordinates parameterizing this joint.-->
+							<CoordinateSet name="">
+								<objects>
+									<Coordinate name="AngleRotation">
+										<!--Cooridnate can describe rotational, translational, or coupled values.
+										    Defaults to rotational.-->
+										<motion_type> rotational </motion_type>
+										<default_value>       0.00000000 </default_value>
+										<default_speed_value>       0.00000000 </default_speed_value>
+										<range>      -1.57079633       1.57079633 </range>
+										<clamped> false </clamped>
+										<locked> false </locked>
+										<prescribed_function/>
+									</Coordinate>
+								</objects>
+								<groups/>
+							</CoordinateSet>
+							<reverse> false </reverse>
+							<SpatialTransform name="">
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<function>
+										<LinearFunction name="">
+											<coefficients>       1.00000000       0.00000000 </coefficients>
+										</LinearFunction>
+									</function>
+									<coordinates> AngleRotation </coordinates>
+									<axis>     0.0000000000      0.0000000000       1.0000000000 </axis>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<function>
+										<Constant name="">
+											<value>       0.00000000 </value>
+										</Constant>
+									</function>
+									<coordinates> </coordinates>
+									<axis>       0.00000000       1.00000000       0.00000000 </axis>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<function>
+										<Constant name="">
+											<value>       0.00000000 </value>
+										</Constant>
+									</function>
+									<coordinates> </coordinates>
+									<axis>       0.99826136      -0.00000000       0.05889802 </axis>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<function>
+										<Constant name="">
+											<value>       0.00000000 </value>
+										</Constant>
+									</function>
+									<coordinates> </coordinates>
+									<axis>       1.00000000       0.00000000       0.00000000 </axis>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<function>
+										<Constant name="">
+											<value>       0.00000000 </value>
+										</Constant>
+									</function>
+									<coordinates> </coordinates>
+									<axis>       0.00000000       1.00000000       0.00000000 </axis>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<function>
+										<Constant name="">
+											<value>       0.00000000 </value>
+										</Constant>
+									</function>
+									<coordinates> </coordinates>
+									<axis>       0.00000000       0.00000000       1.00000000 </axis>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject name="">
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl,
+						    .obj-->
+						<GeometrySet name="">
+							<objects>
+								<DisplayGeometry name="">
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>treadmill.vtp </geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color>       1.00000000       1.00000000       1.00000000 </color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file>  </texture_file>
+									<!--in body transform specified as 3 rotations (rad) followed by 3
+									    translations rX rY rZ tx ty tz-->
+									<transform>      -0.00000000       0.00000000      -0.00000000       0.00000000       0.00000000       0.00000000 </transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors>       1.00000000       1.00000000       1.00000000 </scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+							    <display_preference> 4 </display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>       1.00000000 </opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups/>
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors>        0.1500000000       0.1500000000       0.1500000000 </scale_factors>
+						<!--transform relative to owner specified as 3 rotations (rad) followed by
+						    3 translations rX rY rZ tx ty tz-->
+						<transform>      -0.00000000       0.00000000      -0.00000000       0.00000000       0.00000000       0.00000000 </transform>
+						<!--Whether to show a coordinate frame-->
+							<show_axes> false </show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for
+						    individual geometries-->
+						<display_preference> 4 </display_preference>
+					</VisibleObject>
+					<WrapObjectSet name="">
+						<objects>
+							<WrapCylinder name="WRAP">
+								<xyz_body_rotation>      0.00000000       0.00000000       0.00000000 </xyz_body_rotation>
+								<translation>      0.00000000       0.00000000       0.200000000 </translation>
+								<active> true </active>
+								<quadrant> Y </quadrant>
+								<VisibleObject name="">
+									<!--Set of geometry files and associated attributes, allow .vtp, .stl,
+									    .obj-->
+									<GeometrySet name="">
+										<objects/>
+										<groups/>
+									</GeometrySet>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors>       1.00000000       1.00000000       1.00000000 </scale_factors>
+									<!--transform relative to owner specified as 3 rotations (rad) followed by
+									    3 translations rX rY rZ tx ty tz-->
+									<transform>      0.00000000       0.00000000       0.00000000      0.00000000       0.00000000       0.200000000 </transform>
+									<!--Whether to show a coordinate frame-->
+									<show_axes> false </show_axes>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for
+									    individual geometries-->
+										<display_preference> 4 </display_preference>
+								</VisibleObject>
+								<radius>       0.05000000 </radius>
+								<length>       0.05000000 </length>
+							</WrapCylinder>
+						</objects>
+						<groups/>
+					</WrapObjectSet>
+				</Body>
+				</objects>
+			<groups/>
+		</BodySet>
+		<!--Constraints in the model.-->
+		<ConstraintSet name="">
+			<objects/>
+			<groups/>
+		</ConstraintSet>
+		<!--Markers in the model.-->
+		<MarkerSet name="">
+			<objects>
+			</objects>
+			<groups/>
+		</MarkerSet>
+		<!--ContactGeometry objects in the model.-->
+		<ContactGeometrySet name="">
+			<objects/>
+			<groups/>
+		</ContactGeometrySet>
+	</Model>
+</OpenSimDocument>
+
