@@ -1,4 +1,4 @@
-Muscle Parameter Optimization Toolbox
+Muscle Force Direction plugin and MATLAB toolbox
 =============================
 
 Overview
