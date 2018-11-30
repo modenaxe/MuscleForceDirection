@@ -50,7 +50,7 @@ for n_p = 0:curr_PathPointSet.getSize-1
     
     % point under examination
     curr_point = curr_PathPointSet.get(n_p);
-    attachBody = char(curr_point.getBodyName());
+    attachBody = curr_point.getBodyName();
     
     % if pathpoint is conditional, then check if it is active
     if strcmp(char(curr_point.getConcreteClassName), 'ConditionalPathPoint')
@@ -59,7 +59,7 @@ for n_p = 0:curr_PathPointSet.getSize-1
         if cond_viapoint.isActive(s)
             % if yes add it to point set
             mus_pointset_mat(n_pp, 1:3) = [curr_point.getLocation.get(0), curr_point.getLocation.get(1), curr_point.getLocation.get(2)]; %#ok<*AGROW>
-            mus_bodyset_list(n_pp) = {attachBody};
+            mus_bodyset_list(n_pp) = {char(attachBody)};
             n_pp = n_pp+1;
         else
             continue
@@ -67,7 +67,7 @@ for n_p = 0:curr_PathPointSet.getSize-1
     else
         % if not conditional add it
         mus_pointset_mat(n_pp, 1:3) = [curr_point.getLocation.get(0), curr_point.getLocation.get(1), curr_point.getLocation.get(2)];
-        mus_bodyset_list(n_pp) = {attachBody};
+        mus_bodyset_list(n_pp) = {char(attachBody)};
         n_pp = n_pp+1;
     end
 end
