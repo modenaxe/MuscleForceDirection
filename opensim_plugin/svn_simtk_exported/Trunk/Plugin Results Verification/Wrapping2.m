@@ -70,7 +70,7 @@ end
 dist1 = sqrt(norm(v1)^2-R^2);
 
 fun_min1= @(x) R*[cos(x) sin(x)]+lato*dist1*[-sin(x) cos(x)]-v1;
-options1=optimset('NonlEqnAlgorithm','gn','TolFun',10e-13,'TolX',10e-11);
+options1=optimset('TolFun',10e-13,'TolX',10e-11);
 
 x0 = pi/4;
 [sol1,fval,exitflag] = fsolve(fun_min1,x0,options1);
@@ -96,7 +96,7 @@ end
 dist2 = sqrt(norm(v2)^2-R^2);
 fun_min2= @(x) R*[cos(x) sin(x)]-lato*dist2*[-sin(x) cos(x)]-v2;
 x0 = -pi/4;
-options2=optimset('NonlEqnAlgorithm','gn','TolFun',10e-11,'TolX',10e-11);
+options2=optimset('TolFun',10e-11,'TolX',10e-11);
 [sol2,fval2,exitflag2] = fsolve(fun_min2,x0,options2);
 % retry with new initial point
 if exitflag2 == -2
