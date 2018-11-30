@@ -42,6 +42,11 @@ function flag = isMuscleConnectedToBody(osimMuscle, osimBodyName)
 % initialise answ
 flag = 0;
 
+% check name
+if isjava(osimBodyName)
+    osimBodyName = char(osimBodyName);
+end
+
 % extract muscle pathpointset
 muspathpointset = osimMuscle.getGeometryPath.getPathPointSet();
 
@@ -51,9 +56,9 @@ for n_p = 0:muspathpointset.getSize-1
     % current attachment body of the muscle point
     curr_attach_body = char(muspathpointset.get(n_p).getBodyName);
     % check if this is the specified body
-    if strcmp(curr_attach_body, char(osimBodyName))
+    if strcmp(curr_attach_body, osimBodyName)
         flag = 1;
-        display(['Muscle ', char(osimMuscle.getName),' is attached to body ', char(osimBodyName)]);
+        display(['Muscle ', char(osimMuscle.getName),' is attached to body ', osimBodyName]);
         return
     end
 end

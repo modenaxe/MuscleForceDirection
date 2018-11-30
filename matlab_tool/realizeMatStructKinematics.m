@@ -39,41 +39,47 @@ OpenSimObject.setDebugLevel(3);
 coordsModel = osimModel.updCoordinateSet();
 N_coordsModel = coordsModel.getSize();
 
-% looping thought coordinates to assign them a value
-for n_StateCoord = 0:N_coordsModel-1
-    
-    %%%%%% updating pose of the model %%%%%
-    %extracting the column for the state variable of interest
-    coordName =  char(coordsModel.get(n_StateCoord).getName());
-    
-    % check if the coordinates as an equivalent in storage.
-    CoordInd_in_kinStorage = getMatStructColumn(kinStruct, coordName);
-    
-    if isempty(CoordInd_in_kinStorage)
-        % this is the case when a coordinate is not in the storage file
-        if n_frame==0
-            warndlg([coordName,' not found in storage. Default value will be assigned.'])
-        end
-        % assign default value
-        currentCoordValue =  coordsModel.get(coordName).getDefaultValue;
-    else
-        coordColumValues = getMatStructColumn(kinStruct, coordName);
-        % Value of the state variable at that frame
-        currentCoordValue = coordColumValues(n_frame);
+% checking is kinematics matches coordinates order
+[out, missing_coords_list] = isKinMatchingModelCoords(osimModel, kinStruct.colheaders);
+
+% correct if there are generalised coordinates not computed in IK (e.g.
+% models modified after running IK)
+% NB: not tested!!
+if ~out
+    for n_m = 1:length(missing_coords_list)
+        missing_coords_vals(n_m) =  coordsModel.get(coordName).getDefaultValue;
     end
+else
+    missing_coords_vals = [];
+end
+% if needed
+% kinStruct.colheader = [kinStruct.colheaders, missing_coords_list];
+
+% account for time column in data structure
+if any(strcmp('time', kinStruct.colheaders))    
+    kin_state_angles = [kinStruct.data(n_frame, 2:end), missing_coords_vals];
+else
+    kin_state_angles = [kinStruct.data(n_frame, :), missing_coords_vals];
+end
+
+% looping thought coordinates to assign them a value
+for n_modelCoords = 0:N_coordsModel-1
+    
+    % Value of the state variable at that frame
+    cur_coordValue = kin_state_angles(n_modelCoords+1);
     
     % assigning the coordinates depending on their motion type
-    switch char(coordsModel.get(n_StateCoord).get_motion_type())
+    switch char(coordsModel.get(n_modelCoords).get_motion_type())
         case 'rotational'
             % transform to radiant for angles
-            coordsModel.get(n_StateCoord).setValue(state,currentCoordValue*pi/180);
+            coordsModel.get(n_modelCoords).setValue(state,cur_coordValue*pi/180);
         case 'translational'
             % not changing linear distances
-            coordsModel.get(n_StateCoord).setValue(state,currentCoordValue);
+            coordsModel.get(n_modelCoords).setValue(state,cur_coordValue);
         case 'coupled'
-            error('motiontype ''coupled'' is not managed by this function');
+            error('motiontype ''coupled'' is not managed by realizeMatStructKinematics.m');
         otherwise
-            error('motion type not recognized. Error due to OpenSim update?')
+            error('motion type not recognized. Please check OpenSim model (maybe update error?')
     end
 end
 
