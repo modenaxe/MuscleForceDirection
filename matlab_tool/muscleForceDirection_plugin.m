@@ -37,6 +37,7 @@ function MFDStruct = muscleForceDirection_plugin(osimModel_name,...
                                                                 bodyOfInterest_name,...
                                                                 bodyExpressResultsIn_name,...
                                                                 effective_attachm,...
+                                                                visualise,...
                                                                 test_input)
 
 % Load Library
@@ -67,78 +68,83 @@ else
     end
 end
 
+% define muscles to include in the analysis
 % get muscles
 muscleSet = osimModel.getMuscles();
-N_muscles = muscleSet.getSize();
+n_keep = 1;
+for n_m = 0:muscleSet.getSize()-1
+    
+    % extract muscle
+    curr_mus = muscleSet.get(n_m);
+    curr_mus_name = char(muscleSet.get(n_m).getName());
+    
+    % check if muscle is attached (1) or not (0) to bone of interest
+    % left in internal loop to handle conditional viapoints, if
+    % necessary. They might be active only at certain states, therefore
+    % it is risky to exclude muscles a priori.
+    % NO! CANNOT CHANGE ORIGIN OR INSERTION
+    musc_attach = isMuscleConnectedToBody(curr_mus, bodyOfInterest_name);
+    
+    if musc_attach == 1
+        target_mus_names{n_keep} = curr_mus_name;
+        
+        % defining headers as well
+        rowheaders{n_keep,1} = curr_mus_name;
+        store_range = 1+3*(n_keep-1):3+3*(n_keep-1);
+        colheaders_MFD_vec(store_range)    = {  [curr_mus_name,'_vx_in_',bodyExpressResultsIn_name],...
+                                                [curr_mus_name,'_vy_in_',bodyExpressResultsIn_name],...
+                                                [curr_mus_name,'_vz_in_',bodyExpressResultsIn_name]};
+        colheaders_MFD_attach(store_range) = {  [curr_mus_name,'_px_in_',bodyExpressResultsIn_name],...
+                                                [curr_mus_name,'_py_in_',bodyExpressResultsIn_name],...
+                                                [curr_mus_name,'_pz_in_',bodyExpressResultsIn_name]};
+        n_keep = n_keep +1;
+    end
+end
 
-% TODO: get subset of muscles if needed
+N_target_muscles = length(target_mus_names);
 
 % current state. It will change according to kinematics
+if strcmp(visualise, 'true')
+    osimModel.setUseVisualizer(true);
+end
 curr_state = osimModel.initSystem();
 
+% number of frames
 N_frames = size(IKStruct.data,1);
-
-% initialize matrix to use as output. Same output as plugin.
-% The idea is to have a matrix with a row for each muscle and three groups
-% of columns: attachment on bone, line of action and transport moment.
-% This matrix will make easy both checking the equilibrium and setting the
-% loads in the FE model
-colheaders = {'bone_attach_X', 'bone_attach_Y', 'bone_attach_Z', 'effect_attach_X', 'effect_attach_Y', 'effect_attach_Z', ...
-                'act_line_X',   'act_line_Y',    'act_line_Z',    'trans_mom_X',   'trans_mom_Y',   'trans_mom_Z'};
-
-
-% Variables could be preallocated for speed, but I didn't like to have all
-% zeros, which might be confused with actual values from the analysis.
-% mus_info_mat = zeros(muscleSet.getSize(),12, N_frames);
-
 % this is a testing option to reduce processed kinematics frames when 
 % developing related functions
 if ~isempty(test_input)
     N_frames = test_input;
 end
 
-
+% Variables could be preallocated for speed, but I didn't like to have all
+% zeros, which might be confused with actual values from the analysis.
+% mus_info_mat = zeros(muscleSet.getSize(),12, N_frames);
 for n_frame = 1:N_frames
     
     % realize kinematics
     state_new = realizeMatStructKinematics(osimModel, curr_state, IKStruct, n_frame);
-    
+    if strcmp(visualise, 'true')
+        osimModel.updVisualizer().show(state_new);
+    end
     % counter for muscles to be kept at each frame
     n_keep = 1;
     
-    for n_m = 0:N_muscles-1
+    % display time progression
+    disp('--------------------');
+    disp(['FRAME: ',num2str(n_frame),'/',num2str(N_frames),'.']); 
+    disp('--------------------');
+    
+    for n_m = 0:N_target_muscles-1
         
         % extract muscle
-        curr_mus = muscleSet.get(n_m);
-        curr_mus_name = muscleSet.get(n_m).getName();
+        curr_mus_name = target_mus_names{n_m+1};
+        curr_mus = muscleSet.get(curr_mus_name);
         
         % loop through the points
-        disp('----------------------')
-        disp(['FRAME: ',num2str(n_frame),'/',num2str(N_frames),'. Processing muscle (',num2str(n_m+1),'/',num2str(N_muscles),'): ',char(curr_mus_name)])
         
-        % check if muscle is attached (1) or not (0) to bone of interest
-        % left in internal loop to handle conditional viapoints, if
-        % necessary. They might be active only at certain states, therefore
-        % it is risky to exclude muscles a priori.
-        musc_attach = isMuscleConnectedToBody(curr_mus, bodyOfInterest_name);
+        disp(['Processing muscle (',num2str(n_m+1),'/',num2str(N_target_muscles),'): ', curr_mus_name]);
         
-        if musc_attach == 0
-            % if not attached then nan for the sake of this investigation
-            continue
-        else
-            % if attached
-            
-            % for final data structure
-            if n_frame == 1
-                rowheaders{n_keep,1} = char(curr_mus_name);
-                store_range = 1+3*(n_keep-1):3+3*(n_keep-1);
-                colheaders_MFD_vec(store_range)    = {[char(curr_mus_name),'_vx_in_',bodyExpressResultsIn_name],...
-                    [char(curr_mus_name),'_vy_in_',bodyExpressResultsIn_name],...
-                    [char(curr_mus_name),'_vz_in_',bodyExpressResultsIn_name]};
-                colheaders_MFD_attach(store_range) = {[char(curr_mus_name),'_px_in_',bodyExpressResultsIn_name],...
-                    [char(curr_mus_name),'_py_in_',bodyExpressResultsIn_name],...
-                    [char(curr_mus_name),'_pz_in_',bodyExpressResultsIn_name]};
-            end
             % make available info about the muscle pointSet (body names 
             % and points coordinates)
             [mus_bodyset_list, mus_pointset_mat] = getCurrentMusclePathAsMat(curr_mus, state_new);
@@ -167,7 +173,7 @@ for n_frame = 1:N_frames
             if attach_vec(1)==0 && attach_vec(end)==0
                 %  This case is for multi-articular muscles that jump the
                 %  body and can be attached with a viapoint.
-                display(['Muscle has no bone attachments on ',bodyOfInterest_name]);
+                display(['Muscle has only viapoints (no bone attachments) on ',bodyOfInterest_name,'. Skipping...']);
                 continue
             end
             
@@ -230,7 +236,7 @@ for n_frame = 1:N_frames
             % clear variables to avoid surprises
             clear attachment force_dir_norm transp_mom_norm lastAttach otherBodyAttach_vec force_dir_res
             
-        end
+%         end
     end
 end
 
@@ -257,12 +263,20 @@ MFD_vectors.data = mus_info_mat(:, :, 3);
 % attachments in the local reference system, the file will contain the 
 % first and last muscle points specified for that muscle in the original model file.
 MFD_attachments.colheaders = colheaders_MFD_attach;
-if (effective_attachm==1) || strcmp(effective_attachm, 'true')
+if strcmp(effective_attachm, 'true')
     MFD_attachments.data = mus_info_mat(:, :, 1);
 else
     MFD_attachments.data = mus_info_mat(:, :, 2);
 end
 
+%--------------------------
+% Advanced MATLAB summary |
+%--------------------------
+% The idea is to have a matrix with frames as rows and in column bone
+% attachments, effective attachments, lines of action and transport
+% moments.
+colheaders = {'bone_attach_X', 'bone_attach_Y', 'bone_attach_Z', 'effect_attach_X', 'effect_attach_Y', 'effect_attach_Z', ...
+                'act_line_X',   'act_line_Y',    'act_line_Z',    'trans_mom_X',   'trans_mom_Y',   'trans_mom_Z'};
 % this is an advanced summary for Matlab use
 MFDStruct.colheaders = colheaders;
 MFDStruct.rowheaders = rowheaders;
