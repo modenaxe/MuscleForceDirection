@@ -32,7 +32,7 @@
 % 29 Nov 2018: created based on functions for other purposes and added to
 %              MFD Matlab toolbox.
 % ------------------------------------------------------------------------%            
-function MFDStruct = muscleForceDirection_plugin(osimModel_name,...
+function [MFD, MFDSumStruct] = getMuscleForceDirection(osimModel_name,...
                                                                 IK_mot_file,...
                                                                 bodyOfInterest_name,...
                                                                 bodyExpressResultsIn_name,...
@@ -127,6 +127,7 @@ for n_frame = 1:N_frames
     if strcmp(visualise, 'true')
         osimModel.updVisualizer().show(state_new);
     end
+    
     % counter for muscles to be kept at each frame
     n_keep = 1;
     
@@ -185,6 +186,7 @@ for n_frame = 1:N_frames
                 
                 % first body outside the body of interest
                 bodyFrom = osimModel.getBodySet.get(mus_bodyset_list{dist_attach+1});
+                
                 % vector in bodyFrom ref system
                 p = Vec3(mus_pointset_mat(dist_attach+1, 1),...
                          mus_pointset_mat(dist_attach+1, 2),...
@@ -252,8 +254,8 @@ end
 % selected body where the attachment is located outwards. The body in whose
 % reference system the vector is expressed is always reported as the final 
 % part of the column header of each muscle.
-MFD_vectors.colheaders = colheaders_MFD_vec;
-MFD_vectors.data = mus_info_mat(:, :, 3);
+MFD.vectors.colheaders = colheaders_MFD_vec;
+MFD.vectors.data = mus_info_mat(:, :, 3);
 
 %---------------------------------------
 % MuscleForceDirection_attachments.sto |
@@ -262,12 +264,21 @@ MFD_vectors.data = mus_info_mat(:, :, 3);
 % attachments. If the user choice is to express the anatomical muscle 
 % attachments in the local reference system, the file will contain the 
 % first and last muscle points specified for that muscle in the original model file.
-MFD_attachments.colheaders = colheaders_MFD_attach;
-if strcmp(effective_attachm, 'true')
-    MFD_attachments.data = mus_info_mat(:, :, 1);
-else
-    MFD_attachments.data = mus_info_mat(:, :, 2);
-end
+
+MFD.anatom_attach.colheaders = colheaders_MFD_attach;
+MFD.anatom_attach.data = mus_info_mat(:, :, 1);
+
+MFD.effect_attach.colheaders = colheaders_MFD_attach;
+MFD.effect_attach.data = mus_info_mat(:, :, 2);
+
+MFD.transp_mom.colheaders = colheaders_MFD_vec;
+MFD.transp_mom.data = mus_info_mat(:, :, 4);
+% 
+% if strcmp(effective_attachm, 'true')
+%     
+% else
+%     
+% end
 
 %--------------------------
 % Advanced MATLAB summary |
@@ -278,9 +289,9 @@ end
 colheaders = {'bone_attach_X', 'bone_attach_Y', 'bone_attach_Z', 'effect_attach_X', 'effect_attach_Y', 'effect_attach_Z', ...
                 'act_line_X',   'act_line_Y',    'act_line_Z',    'trans_mom_X',   'trans_mom_Y',   'trans_mom_Z'};
 % this is an advanced summary for Matlab use
-MFDStruct.colheaders = colheaders;
-MFDStruct.rowheaders = rowheaders;
-MFDStruct.data       = mus_info_mat;
+MFDSumStruct.colheaders = colheaders;
+MFDSumStruct.rowheaders = rowheaders;
+MFDSumStruct.data       = mus_info_mat;
 
 % to free the memory
 osimModel.disownAllComponents();
