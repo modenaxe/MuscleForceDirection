@@ -51,16 +51,16 @@ res_anatAttach_local = getMuscleForceDirection(osimModel_name,...
 %     []);
 
 
-res_anatAttach_local
-res_anatAttach_ground
-res_effectAttach_ground
-res_effectAttach_local
-
-res_anatAttach_local_val = sto2Mat(fullfile(validated_results_folder,'LOCAL_ANATOM_MuscleForceDirection_vectors.sto'));
-
-res_anatAttach_ground.rowheaders
-res_effectAttach_ground
-res_effectAttach_local
+% res_anatAttach_local
+% res_anatAttach_ground
+% res_effectAttach_ground
+% res_effectAttach_local
+% 
+% res_anatAttach_local_val = sto2Mat(fullfile(validated_results_folder,'LOCAL_ANATOM_MuscleForceDirection_vectors.sto'));
+% 
+% res_anatAttach_ground.rowheaders
+% res_effectAttach_ground
+% res_effectAttach_local
 %--------------------------------------------------------------------------
 % %% test 1: simple arm26 model
 % osimModel_name = '../_test_data/Arm26/arm26.osim';
@@ -82,20 +82,20 @@ res_effectAttach_local
 %
 %
 %--------------------------------------------------------------------------                                       
-% %% test 2: gait2392 model                                       
-%                                                             
-% osimModel_name = '../_test_data/gait2392/subject01.osim';
-% IK_mot_file = '../_test_data/gait2392/subject01_walk1_ik.mot';
-% bodyOfInterest_name = 'femur_r';
-% bodyExpressResultsIn_name = [];
-% effective_attachm = 'true';
-% test_input = [];
-% 
-% N_frame_test = 5;
-% muscleLinesOfActionStruct = getMuscleForceDirection(osimModel_name,...
-%                                                                 IK_mot_file,...
-%                                                                 bodyOfInterest_name,...
-%                                                                 bodyExpressResultsIn_name,...
-%                                                                 effective_attachm,...
-%                                                                 'true',...
-%                                                                 []);
+%% test 2: gait2392 model                                       
+                                                            
+osimModel_name = '../_test_data/gait2392/subject01.osim';
+IK_mot_file = '../_test_data/gait2392/subject01_walk1_ik.mot';
+bodyOfInterest_name = 'femur_r';
+bodyExpressResultsIn_name = [];
+effective_attachm = 'true';
+test_input = [];
+
+N_frame_test = 5;
+muscleLinesOfActionStruct = getMuscleForceDirection(osimModel_name,...
+                                                                IK_mot_file,...
+                                                                bodyOfInterest_name,...
+                                                                bodyExpressResultsIn_name,...
+                                                                effective_attachm,...
+                                                                'true',...
+                                                                 []);

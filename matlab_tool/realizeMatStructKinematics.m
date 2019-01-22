@@ -44,9 +44,9 @@ N_coordsModel = coordsModel.getSize();
 
 % correct if there are generalised coordinates not computed in IK (e.g.
 % models modified after running IK)
-% NB: not tested!!
 if ~out
     for n_m = 1:length(missing_coords_list)
+        coordName = missing_coords_list{n_m};
         missing_coords_vals(n_m) =  coordsModel.get(coordName).getDefaultValue;
     end
 else
