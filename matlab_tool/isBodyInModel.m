@@ -1,5 +1,5 @@
 %-------------------------------------------------------------------------%
-% Copyright (c) 2018 Modenese L.                                          %
+% Copyright (c) 2019 Modenese L.                                          %
 %                                                                         %
 % Licensed under the Apache License, Version 2.0 (the "License");         %
 % you may not use this file except in compliance with the License.        %
@@ -26,7 +26,6 @@
 %           throws an error.
 %
 % last modified: 
-% 2017: created.
 % 23 Jun 2017: comments (LM).
 % 16 Feb 2018: changed function name (LM). 
 % 29 Nov 2018: changed name, recommented, included in MFD toolbox (LM). 

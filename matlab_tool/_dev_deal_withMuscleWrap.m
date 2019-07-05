@@ -1,3 +1,8 @@
+%-------------------------------------------------------------------------%
+% Copyright (c) 2019 Modenese L.                                          %
+%    Author:   Luca Modenese                                              %
+%    email:    l.modenese@imperial.ac.uk                                  % 
+% ----------------------------------------------------------------------- %
 
 clear;clc
 import org.opensim.modeling.*
