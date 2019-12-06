@@ -67,4 +67,10 @@ These are some of the points of development
 # Additional Resources
 * OpenSim Webinar on interfacing musculoskeletal and finite element models.
 * Yamaguchi book 
-* ????
+
+# Contributors
+In various moment several people contributed to the package:
+* Alfred Thibon
+* Friedl DeGroote
+* Claudio Pizzolato
+* Ke Son
