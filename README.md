@@ -18,7 +18,7 @@ Anatomical muscle lines of actions are those whose attachments are on the bones.
 Effective muscle lines of actions are those determining the effective mechanical effect of the muscle action on the equilibrium of the bone when considering its free body diagram.
 
 A typical example is a muscle including _via points_ or _wrapping surface_, for example the gastronemius, that can alter the muscle lines of action substantially between the first segment of the muscle and the last segment attached to a certain bone.
-[!image](PATH_TO_IMAGE)
+[!anat_vs_effect](https://github.com/modenaxe/MuscleForceDirection/blob/master/images/anatomical_vs_effective.png)
 
 # Plugin options
 
