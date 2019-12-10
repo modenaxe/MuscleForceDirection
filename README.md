@@ -1,6 +1,6 @@
 # Overview
 
-The Muscle Force Direction plugin extends the functionalities of [OpenSim]() by making convenient to extract the muscle lines of action.
+The Muscle Force Direction plugin extends the functionalities of [OpenSim](https://simtk.org/projects/opensim/) by making convenient to extract the muscle lines of action.
 It is provided as a C++ plugin that can be loaded through the main OpenSim user interface or called by MATLAB.
 Leveraging the OpenSim Application Programming Interface (API) it is also provided as MATLAB toolbox.
 
@@ -27,7 +27,7 @@ A typical example is a muscle including _via points_ or _wrapping surface_, for 
 [!image](PATH_TO_IMAGE)
 
 # Installation
-* For compiling the C++ plugin, follow the instructions available on the OpenSim Developers' Guide, where you can also find some examples.
+* For compiling the C++ plugin, follow the instructions available on the [OpenSim Developers' Guide](https://simtk-confluence.stanford.edu/display/OpenSim/Developer%27s+Guide), where you can also find some examples.
 * For installing the MFD plugin for use in the OpenSim GUI follow the same procedure to install other plugins:
 	* place the plugin in the `plugins` folder
 	* restart OpenSim
@@ -48,14 +48,14 @@ Please cite the following publication:
 * The C++ plugin has not been updated in a while, and it is not compatible with OpenSim 4.0.
 
 # How to contribute
-Feel free of contributing as by standard [GitHub workflow](LINK_TO_GITHUB_WORKFLOW):
-1. fork this repository
-2. create your own branch, where you make your modifications and improvements
+Feel free of contributing as by standard [GitHub workflow](https://guides.github.com/activities/forking/):
+1. forking this repository
+2. creating your own branch, where you make your modifications and improvements
 3. once you are happy with the new feature you have implemented create a pull request
 
 # Resources
-* If you want to contribute but you are not familiar with [Git](), the [Software Carpentry Lessons](CARPENTRY_LINK) are a perfect place to start with Git and GitHub.
-* If you know how to use git but you are not familiar with GitHub, you can check resources like ["My First Contribution"](LINK_TO_FIRST_CONTRIB) to learn how to contribute to existing projects.
+* If you want to contribute but you are not familiar with [Git](https://git-scm.com/), the [Software Carpentry Lessons](https://swcarpentry.github.io/git-novice/) are a perfect place to start with Git and GitHub.
+* If you know how to use git but you are not familiar with GitHub, you can check resources like ["First Contributions"](https://github.com/firstcontributions/first-contributions) to learn how to contribute to existing projects.
 
 # To Do List
 These are some of the points of development
@@ -65,12 +65,12 @@ These are some of the points of development
 [ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
 
 # Additional Resources
-* OpenSim Webinar on interfacing musculoskeletal and finite element models.
-* Yamaguchi book 
+* OpenSim Webinar [_Interfacing musculoskeletal and finite element models_](https://www.youtube.com/watch?v=0e6vQV_ioCI)
+* "Dynamic Modeling of Musculoskeletal Motion: A Vectorized Approach for Biomechanical Analysis in Three Dimensions" by G.T. Yamaguchi
 
 # Contributors
 In various moment several people contributed to the package:
 * Alfred Thibon
-* Friedl DeGroote
+* Friedl De Groote
 * Claudio Pizzolato
 * Ke Son
