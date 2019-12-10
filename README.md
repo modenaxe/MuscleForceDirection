@@ -31,11 +31,7 @@ A typical example is a muscle including _via points_ or _wrapping surface_, for 
 * For installing the MFD plugin for use in the OpenSim GUI follow the same procedure to install other plugins:
 	* place the plugin in the `plugins` folder
 	* restart OpenSim
-* For using the MATLAB toolbox, include the **REVISE** MATLAB folder in your path.
-
-
-# License (REVISE -> I WANT THE MODIFICATIONS TO BE SHARED BACK!)
-Apache 2.0 license making it suitable for any use commercial, government, academic, or personal.  
+* For using the MATLAB toolbox, include the MATLAB folder in your path.
 
 # How to Acknowledge Us
 Please cite the following publication:
@@ -59,17 +55,18 @@ Feel free of contributing as by standard [GitHub workflow](https://guides.github
 
 # To Do List
 These are some of the points of development
-[ ] make the C++ plugin compatible with OpenSim 4.0
-[ ] port the scripting toolbox in Python
-[ ] finalise the Matlab Toolbox
-[ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
+
+*[ ] make the C++ plugin compatible with OpenSim 4.0
+*[ ] port the scripting toolbox in Python
+*[ ] finalise the Matlab Toolbox
+*[ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
 
 # Additional Resources
-* OpenSim Webinar [_Interfacing musculoskeletal and finite element models_](https://www.youtube.com/watch?v=0e6vQV_ioCI)
+* OpenSim Webinar: ["Interfacing Musculoskeletal and Finite Element Models to Study Bone Structure & Adaptation"](https://www.youtube.com/watch?v=0e6vQV_ioCI)
 * "Dynamic Modeling of Musculoskeletal Motion: A Vectorized Approach for Biomechanical Analysis in Three Dimensions" by G.T. Yamaguchi
 
 # Contributors
-In various moment several people contributed to the package:
+In various moments several researchers contributed to the package:
 * Alfred Thibon
 * Friedl De Groote
 * Claudio Pizzolato
