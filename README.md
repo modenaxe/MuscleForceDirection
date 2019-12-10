@@ -73,4 +73,4 @@ In various moment several people contributed to the package:
 * Alfred Thibon
 * Friedl De Groote
 * Claudio Pizzolato
-* Ke Son
+* Ke Song
