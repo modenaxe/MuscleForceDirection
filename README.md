@@ -40,7 +40,7 @@ Using the plugin setup you can decide:
 
 # Publications
 
-The plugin was originally described in the Appendix of this publication:
+The plugin was originally described in the Appendix of [this publication](https://github.com/modenaxe/MuscleForceDirection/blob/master/doc/papers/van%20Arkel%20et%20al.%20J%20Orthop%20Res%202013.pdf):
 
 ```bibtex
 @article{van2013hip,
@@ -55,7 +55,7 @@ The plugin was originally described in the Appendix of this publication:
 }
 ```
 
-A better example of use is however provided here:
+A better example of use is however provided [here](https://github.com/modenaxe/MuscleForceDirection/blob/master/doc/papers/Phillips%20et%20al.%20Inter%20Biomech%202015.pdf):
 ```bibtex
 @article{phillips2015femoral,
   title={Femoral bone mesoscale structural architecture prediction using musculoskeletal and finite element modelling},
