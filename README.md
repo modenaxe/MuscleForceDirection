@@ -12,12 +12,6 @@ If you are using the internal forces estimated by musculoskeletal models as load
 
 The MuscleForceDirection plugin (MFD plugin for short) tries to streamline this operations and make easier to extract muscle forces and apply them to finite element models.
 
-# Plugin options
-Using the plugin setup you can decide:
-1. the body/bodies of interest on which to run the MFD analysis
-2. the reference system in which you want to express the line of actions
-3. choose if you want to extract the "anatomical" lines of action or the effective lines of action.
-
 ## "Anatomical" versus "Effective" lines of action
 Anatomical muscle lines of actions are those whose attachments are on the bones.
 
@@ -26,6 +20,13 @@ Effective muscle lines of actions are those determining the effective mechanical
 A typical example is a muscle including _via points_ or _wrapping surface_, for example the gastronemius, that can alter the muscle lines of action substantially between the first segment of the muscle and the last segment attached to a certain bone.
 [!image](PATH_TO_IMAGE)
 
+# Plugin options
+
+Using the plugin setup you can decide:
+1. the body/bodies of interest on which to run the MFD analysis
+2. the reference system in which you want to express the line of actions
+3. choose if you want to extract the "anatomical" lines of action or the effective lines of action.
+
 # Installation
 * For compiling the C++ plugin, follow the instructions available on the [OpenSim Developers' Guide](https://simtk-confluence.stanford.edu/display/OpenSim/Developer%27s+Guide), where you can also find some examples.
 * For installing the MFD plugin for use in the OpenSim GUI follow the same procedure to install other plugins:
@@ -33,11 +34,39 @@ A typical example is a muscle including _via points_ or _wrapping surface_, for 
 	* restart OpenSim
 * For using the MATLAB toolbox, include the MATLAB folder in your path.
 
-# How to Acknowledge Us
-Please cite the following publication:
+# Examples of use - TO DO
+
+- [ ] matlab example
+
+# Publications
+
+The plugin was originally described in the Appendix of this publication:
 
 ```bibtex
-**INCLUDE CITATION HERE**
+@article{van2013hip,
+  title={Hip abduction can prevent posterior edge loading of hip replacements},
+  author={van Arkel, Richard J and Modenese, Luca and Phillips, Andrew TM and Jeffers, Jonathan RT},
+  journal={Journal of Orthopaedic Research},
+  volume={31},
+  number={8},
+  pages={1172--1179},
+  year={2013},
+  publisher={Wiley Online Library}
+}
+```
+
+A better example of use is however provided here:
+```bibtex
+@article{phillips2015femoral,
+  title={Femoral bone mesoscale structural architecture prediction using musculoskeletal and finite element modelling},
+  author={Phillips, Andrew TM and Villette, Claire C and Modenese, Luca},
+  journal={International Biomechanics},
+  volume={2},
+  number={1},
+  pages={43--61},
+  year={2015},
+  publisher={Taylor \& Francis}
+}
 ```
 
 # Limitations
@@ -56,10 +85,10 @@ Feel free of contributing as by standard [GitHub workflow](https://guides.github
 # To Do List
 These are some of the points of development
 
-*[ ] make the C++ plugin compatible with OpenSim 4.0
-*[ ] port the scripting toolbox in Python
-*[ ] finalise the Matlab Toolbox
-*[ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
+- [ ] make the C++ plugin compatible with OpenSim 4.0
+- [ ] port the scripting toolbox in Python
+- [ ] finalise the Matlab Toolbox
+- [ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
 
 # Additional Resources
 * OpenSim Webinar: ["Interfacing Musculoskeletal and Finite Element Models to Study Bone Structure & Adaptation"](https://www.youtube.com/watch?v=0e6vQV_ioCI)
