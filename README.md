@@ -36,9 +36,11 @@ Using the plugin setup you can decide:
 	* restart OpenSim
 * For using the MATLAB toolbox, include the MATLAB folder in your path.
 
-# Examples of use - TO DO
+# Examples of use 
 
-- [ ] matlab example
+There will be examples of how to call the plugin from Matlab etc.
+
+
 
 # Publications
 
@@ -90,6 +92,7 @@ These are some of the points of development
 - [ ] make the C++ plugin compatible with OpenSim 4.0
 - [ ] port the scripting toolbox in Python
 - [ ] finalise the Matlab Toolbox
+- [ ] matlab example
 - [ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
 
 # Additional Resources
