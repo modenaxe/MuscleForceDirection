@@ -12,6 +12,8 @@ If you are using the internal forces estimated by musculoskeletal models as load
 
 The MuscleForceDirection plugin (MFD plugin for short) tries to streamline this operations and make easier to extract muscle forces and apply them to finite element models.
 
+![FE_workflow](https://github.com/modenaxe/MuscleForceDirection/blob/master/images/plugin_workflow.png)
+
 ## "Anatomical" versus "Effective" lines of action
 Anatomical muscle lines of actions are those whose attachments are on the bones.
 
