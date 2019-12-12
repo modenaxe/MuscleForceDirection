@@ -293,7 +293,7 @@ MFDSumStruct.colheaders = colheaders;
 MFDSumStruct.rowheaders = rowheaders;
 MFDSumStruct.data       = mus_info_mat;
 
-% to free the memory
+% free the memory
 osimModel.disownAllComponents();
 
 end
