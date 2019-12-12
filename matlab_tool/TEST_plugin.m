@@ -3,9 +3,10 @@
 %    Author:   Luca Modenese                                              %
 %    email:    l.modenese@imperial.ac.uk                                  % 
 % ----------------------------------------------------------------------- %
+
+%% TEST1
 % Load Library
 import org.opensim.modeling.*;
-
 
 % verification
 osimModel_name = '../_test_data/MFD_tests/testModel.osim'; 
