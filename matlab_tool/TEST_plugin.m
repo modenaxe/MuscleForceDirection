@@ -9,8 +9,8 @@
 import org.opensim.modeling.*;
 
 % verification
-osimModel_name = '../_test_data/MFD_tests/testModel.osim'; 
-IK_mot_file = '../_test_data/MFD_tests/testKinematics_file.mot';
+osimModel_name = '../tests/MFD_tests/testModel.osim'; 
+IK_mot_file = '../tests/MFD_tests/testKinematics_file.mot';
 bodyOfInterest_name = 'MovingBody';
 bodyExpressResultsIn_name = [];
 effective_attachm = 'false';
@@ -85,8 +85,8 @@ res_anatAttach_local = getMuscleForceDirection(osimModel_name,...
 %--------------------------------------------------------------------------                                       
 %% test 2: gait2392 model                                       
                                                             
-osimModel_name = '../_test_data/gait2392/subject01.osim';
-IK_mot_file = '../_test_data/gait2392/subject01_walk1_ik.mot';
+osimModel_name = '../tests/gait2392/subject01.osim';
+IK_mot_file = '../tests/gait2392/subject01_walk1_ik.mot';
 bodyOfInterest_name = 'femur_r';
 bodyExpressResultsIn_name = [];
 effective_attachm = 'true';
