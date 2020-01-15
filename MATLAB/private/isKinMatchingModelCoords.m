@@ -49,10 +49,10 @@ for n = 0:N_coordsModel-1
 end
 
 if length(coordNames) == length(coordsNames_in_struct)
-    disp('Coordinate structure and model are properly matched (coordinates and their order).');
     out = 1;
     return
 else
+    warning('Coordinate structure and model are NOT properly matched (coordinates and their order).');
     out = 0;
     
 end
