@@ -32,7 +32,7 @@
 %                "This file contains..."
 %
 % OUTPUT:
-%       - no output.
+%       - sto file at the specified path.
 %
 % ----------------------------------------------------------------------- %
 function Mat2sto(MatStruct, sto_file, str_data_description)
