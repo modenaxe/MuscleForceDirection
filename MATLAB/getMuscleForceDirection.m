@@ -34,6 +34,7 @@
 % ------------------------------------------------------------------------%            
 function [MFD, MFDSumStruct] = getMuscleForceDirection(osimModel_name,...
                                                                 IK_mot_file,...
+                                                                MFD_sto_file,...
                                                                 bodyOfInterest_name,...
                                                                 bodyExpressResultsIn_name,...
                                                                 effective_attachm,...
@@ -55,7 +56,8 @@ isBodyInModel(osimModel, bodyOfInterest_name);
 % get body of interest
 bodyOfInterest   = osimModel.getBodySet.get(bodyOfInterest_name);
 
-% get body used to express results (if different from body of interest)
+% get body where results will be expressed
+% (if different from body of interest)
 if strcmp(bodyExpressResultsIn_name, bodyOfInterest_name)==1
     bodyExpressResultsIn = bodyOfInterest;
 else
@@ -132,9 +134,9 @@ for n_frame = 1:N_frames
     n_keep = 1;
     
     % display time progression
-    disp('--------------------');
-    disp(['FRAME: ',num2str(n_frame),'/',num2str(N_frames),'.']); 
-    disp('--------------------');
+    %disp('--------------------');
+    disp(['FRAME: ',num2str(n_frame),'/',num2str(N_frames)]); 
+    %disp('--------------------');
     
     for n_m = 0:N_target_muscles-1
         
@@ -143,8 +145,8 @@ for n_frame = 1:N_frames
         curr_mus = muscleSet.get(curr_mus_name);
         
         % loop through the points
-        
-        disp(['Processing muscle (',num2str(n_m+1),'/',num2str(N_target_muscles),'): ', curr_mus_name]);
+        % this print is too fast to be useful apart from debugging
+        % disp(['Processing muscle (',num2str(n_m+1),'/',num2str(N_target_muscles),'): ', curr_mus_name]);
         
             % make available info about the muscle pointSet (body names 
             % and points coordinates)
@@ -245,7 +247,10 @@ end
 %----------- OUTPUT FILES ------------
 % Output files are the same as the C++ plugin.
 % Names and descriptions are taken from the manual
-%
+[p, n, e] = fileparts(MFD_sto_file);
+MFD_sto_file_vec = fullfile(p, [n,'_MuscleForceDirection_attachments', e]);
+MFD_sto_file_att = fullfile(p, [n,'_MuscleForceDirection_vectors', e]);
+
 %-----------------------------------
 % MuscleForceDirection_vectors.sto | 
 %-----------------------------------
@@ -256,6 +261,10 @@ end
 % part of the column header of each muscle.
 MFD.vectors.colheaders = colheaders_MFD_vec;
 MFD.vectors.data = mus_info_mat(:, :, 3);
+MFD_vec_descr = ["the normalized muscle lines of actions expressed in ",...
+                bodyExpressResultsIn_name, ...
+                " reference system"];
+Mat2sto(MFD.vectors, MFD_sto_file_vec, MFD_vec_descr)
 
 %---------------------------------------
 % MuscleForceDirection_attachments.sto |
@@ -265,20 +274,28 @@ MFD.vectors.data = mus_info_mat(:, :, 3);
 % attachments in the local reference system, the file will contain the 
 % first and last muscle points specified for that muscle in the original model file.
 
-MFD.anatom_attach.colheaders = colheaders_MFD_attach;
-MFD.anatom_attach.data = mus_info_mat(:, :, 1);
+MFD.attach.colheaders = colheaders_MFD_attach;
 
-MFD.effect_attach.colheaders = colheaders_MFD_attach;
-MFD.effect_attach.data = mus_info_mat(:, :, 2);
+if strcmp(effective_attachm, 'true')
+    % anatomical
+    MFD.anatom_attach.data = mus_info_mat(:, :, 1);
+else
+    % effective
+    MFD.effect_attach.data = mus_info_mat(:, :, 2);
+end
 
-MFD.transp_mom.colheaders = colheaders_MFD_vec;
-MFD.transp_mom.data = mus_info_mat(:, :, 4);
-% 
-% if strcmp(effective_attachm, 'true')
-%     
-% else
-%     
-% end
+MFD_attach_descr = ["the position of the muscle attachments expressed in ",...
+                bodyExpressResultsIn_name, ...
+                " reference system"];
+Mat2sto(MFD.vectors, MFD_sto_file_att, MFD_attach_descr)
+
+%----------------------------------------
+% MuscleForceDirection_transp_moment.sto |
+%----------------------------------------
+% this will write a sto file for transport moment.
+% MFD.transp_mom.colheaders = colheaders_MFD_vec;
+% MFD.transp_mom.data = mus_info_mat(:, :, 4);
+
 
 %--------------------------
 % Advanced MATLAB summary |
