@@ -14,10 +14,10 @@ osimModel_name = '../tests/MFD_tests/testModel.osim';
 IK_mot_file = '../tests/MFD_tests/testKinematics_file.mot';
 MFD_sto_file = './test_results/test1.sto';
 bodyOfInterest_name = 'MovingBody';
-bodyExpressResultsIn_name = [];
+bodyExpressResultsIn_name = 'ground';
 effec_att = 'false';
 test_input = [];
-vis_on = 'true';
+vis_on = 'false';
 
 validated_results_folder = '../_test_data/MFD_tests/validated_res';
 
@@ -70,8 +70,8 @@ res_anatAttach_local = getMuscleForceDirection(osimModel_name,...
 osimModel_name = '../test_data/Arm26/arm26.osim';
 IK_mot_file = '../test_data/Arm26/elbow_flexion.mot';
 bodyOfInterest_name = 'r_humerus';
-bodyExpressResultsIn_name = [];
-effective_attachm = 'true';
+bodyExpressResultsIn_name = 'ground';
+effective_attachm = 'false';
 test_input = [];
 % 
 % 
