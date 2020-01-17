@@ -53,6 +53,9 @@ IKStruct = sto2Mat(IK_mot_file);
 % check feasibility of the requested operation
 isBodyInModel(osimModel, bodyOfInterest_name);
 
+% TODO: deal with multiple body expressed in distinct reference systems by
+% creating a loop here and using cell arrays.
+
 % get body of interest
 bodyOfInterest   = osimModel.getBodySet.get(bodyOfInterest_name);
 
@@ -244,12 +247,15 @@ for n_frame = 1:N_frames
     end
 end
 
+% time vector
+time_v = getMatStructColumn(IKStruct, 'time');
+
 %----------- OUTPUT FILES ------------
 % Output files are the same as the C++ plugin.
 % Names and descriptions are taken from the manual
 [p, n, e] = fileparts(MFD_sto_file);
-MFD_sto_file_vec = fullfile(p, [n,'_MuscleForceDirection_attachments', e]);
-MFD_sto_file_att = fullfile(p, [n,'_MuscleForceDirection_vectors', e]);
+MFD_sto_file_att = fullfile(p, [n,'_MuscleForceDirection_attachments', e]);
+MFD_sto_file_vec = fullfile(p, [n,'_MuscleForceDirection_vectors', e]);
 
 %-----------------------------------
 % MuscleForceDirection_vectors.sto | 
@@ -259,11 +265,12 @@ MFD_sto_file_att = fullfile(p, [n,'_MuscleForceDirection_vectors', e]);
 % selected body where the attachment is located outwards. The body in whose
 % reference system the vector is expressed is always reported as the final 
 % part of the column header of each muscle.
-MFD.vectors.colheaders = colheaders_MFD_vec;
-MFD.vectors.data = mus_info_mat(:, :, 3);
-MFD_vec_descr = ["the normalized muscle lines of actions expressed in ",...
-                bodyExpressResultsIn_name, ...
-                " reference system"];
+MFD.vectors.colheaders  = [{'time'} colheaders_MFD_vec];
+MFD.vectors.data        = [time_v, mus_info_mat(:, :, 3)];
+MFD_vec_descr           = ['the normalized muscle lines of action expressed in ',...
+                            bodyExpressResultsIn_name, ...
+                            ' reference system'];
+% write file
 Mat2sto(MFD.vectors, MFD_sto_file_vec, MFD_vec_descr)
 
 %---------------------------------------
@@ -274,20 +281,23 @@ Mat2sto(MFD.vectors, MFD_sto_file_vec, MFD_vec_descr)
 % attachments in the local reference system, the file will contain the 
 % first and last muscle points specified for that muscle in the original model file.
 
-MFD.attach.colheaders = colheaders_MFD_attach;
+MFD.attach.colheaders = [{'time'}, colheaders_MFD_attach];
 
+% check if anatomical or effective attachments are required
 if strcmp(effective_attachm, 'true')
-    % anatomical
-    MFD.anatom_attach.data = mus_info_mat(:, :, 1);
+    % effective attachment if required
+    MFD.attach.data = [time_v, mus_info_mat(:, :, 2)];
+    descr = 'effective';
 else
-    % effective
-    MFD.effect_attach.data = mus_info_mat(:, :, 2);
+    % anatomical attachments by default
+    MFD.attach.data = [time_v, mus_info_mat(:, :, 1)];
+    descr = 'amatomical';
 end
 
-MFD_attach_descr = ["the position of the muscle attachments expressed in ",...
+MFD_attach_descr = ['the ',descr ,' position of the muscle attachments expressed in ',...
                 bodyExpressResultsIn_name, ...
-                " reference system"];
-Mat2sto(MFD.vectors, MFD_sto_file_att, MFD_attach_descr)
+                ' reference system'];
+Mat2sto(MFD.attach, MFD_sto_file_att, MFD_attach_descr)
 
 %----------------------------------------
 % MuscleForceDirection_transp_moment.sto |
