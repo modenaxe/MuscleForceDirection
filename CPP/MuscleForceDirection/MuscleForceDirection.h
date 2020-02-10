@@ -19,9 +19,7 @@ namespace OpenSim {
 
 class Model;
 
-class OSIMPLUGIN_API MuscleForceDirection : public Analysis
-
-{
+class OSIMPLUGIN_API MuscleForceDirection : public Analysis {
     OpenSim_DECLARE_CONCRETE_OBJECT(MuscleForceDirection, Analysis);
 
  protected:
@@ -75,9 +73,9 @@ class OSIMPLUGIN_API MuscleForceDirection : public Analysis
     // COPY CONSTRUCTOR
     MuscleForceDirection(const MuscleForceDirection& aObject);
     // DESTRUCTOR
-    virtual ~MuscleForceDirection();
+    ~MuscleForceDirection();
     // CLONE
-    virtual Object* copy() const;
+    Object* copy() const;
 
  private:
     // ZERO DATA AND NULL POINTERS
@@ -94,15 +92,15 @@ class OSIMPLUGIN_API MuscleForceDirection : public Analysis
 #endif
 
     //========================== Required Methods =============================
-    virtual void setModel(Model& aModel);
+    void setModel(Model& aModel) override;
     // INTEGRATION
-    virtual int begin(SimTK::State& s);
-    virtual int step(const SimTK::State& s, int stepNumber);
-    virtual int end(SimTK::State& s);
+    int begin(SimTK::State& s);
+    int step(const SimTK::State& s, int stepNumber) override;
+    int end(SimTK::State& s);
     // IO
-    virtual int printResults(const std::string& aBaseName,
-                             const std::string& aDir = "", double aDT = -1.0,
-                             const std::string& aExtension = ".sto");
+    int printResults(const std::string& aBaseName, const std::string& aDir = "",
+                     double aDT = -1.0,
+                     const std::string& aExtension = ".sto") override;
 
  protected:
     //========================== Internal Methods =============================
@@ -121,8 +119,7 @@ class OSIMPLUGIN_API MuscleForceDirection : public Analysis
     static void
     getEffectiveAttachments(const Array<PointForceDirection*>& aPFDs,
                             int& effecInsertProx, int& effecInsertDist);
-    inline void NormalizeVec3(SimTK::Vec3& v1, SimTK::Vec3& rNormv1);
-
+    void NormalizeVec3(SimTK::Vec3& v1, SimTK::Vec3& rNormv1);
 }; // END of class MuscleForceDirection
 
 };     // namespace OpenSim

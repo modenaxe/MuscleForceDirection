@@ -75,7 +75,7 @@ MuscleForceDirection::MuscleForceDirection(
 // CLONE CONSTRUCTOR
 Object* MuscleForceDirection::copy() const {
     MuscleForceDirection* object = new MuscleForceDirection(*this);
-    return (object);
+    return object;
 }
 
 //============  OPERATORS  ============
@@ -93,7 +93,7 @@ MuscleForceDirection& MuscleForceDirection::operator=(
     _bodyNames = aMuscleForceDirection._bodyNames;
     _effectInsertion = aMuscleForceDirection._effectInsertion;
 
-    return (*this);
+    return *this;
 }
 
 // setNull()
@@ -130,7 +130,7 @@ void MuscleForceDirection::setupProperties() {
             "directions are desired at the effective muscle attachments.");
     _propertySet.append(&_boolEffectiveInsertionsProp);
 
-    _boolPrintAttachPointProp.setName("print_attachments");
+    _boolPrintAttachPointProp.setName("print_muscle_attachments");
     _boolPrintAttachPointProp.setComment(
             "Flag (true or false)specifying whether a storage file with the "
             "position of the muscle attachments will be printed.");
@@ -197,7 +197,7 @@ void MuscleForceDirection::constructDescriptionAttachments() {
 // constructColumnLabels() for the output results
 void MuscleForceDirection::constructColumnLabels() {
     if (_model == NULL) return;
-    const Set<Muscle> muscleSet = _model->getMuscles();
+    const auto& muscleSet = _model->getMuscles();
 
     // Get the indexes of the muscles attached to the specified bodies.
     _muscleIndices = getMusclesIndexForBody(_model, _bodyNames);
@@ -210,7 +210,7 @@ void MuscleForceDirection::constructColumnLabels() {
     if (!_expressInLocalFrame) {
         // get ground body name
         auto groundbody = _model->getGround();
-        std::string GroundName = groundbody.getName();
+        auto GroundName = groundbody.getName();
 
         // creates labels for muscles in global reference frame
         for (int i = 0; i < _muscleIndices.getSize(); i++) {
@@ -229,7 +229,7 @@ void MuscleForceDirection::constructColumnLabels() {
         for (int i = 0; i < _muscleIndices.getSize(); i++) {
             j = _muscleIndices[i];
 
-            const PathPointSet& pathpointSet =
+            const auto& pathpointSet =
                     muscleSet[j].getGeometryPath().getPathPointSet();
             int SetLast = pathpointSet.getSize() - 1;
 
@@ -300,14 +300,14 @@ void MuscleForceDirection::setModel(Model& aModel) {
 // RECORD: THE CORE OF THE ANALYSIS
 int MuscleForceDirection::record(const SimTK::State& s) {
     // Muscles
-    const BodySet& bodySet = _model->getBodySet();
-    const Set<Muscle>& muscleSet = _model->getMuscles();
+    const auto& bodySet = _model->getBodySet();
+    const auto& muscleSet = _model->getMuscles();
 
     // the analysis to be performed is defined within the for loop.
     for (int i = 0; i < _muscleIndices.getSize(); i++) {
         // Extract the path of selected muscle
-        Muscle& muscle = muscleSet.get(_muscleIndices[i]);
-        const GeometryPath& path = muscle.getGeometryPath();
+        const auto& muscle = muscleSet.get(_muscleIndices[i]);
+        const auto& path = muscle.getGeometryPath();
 
         /* ----------NOTE-------------------------------------------
         GetCurrentPath doesn't work as well as PointForceDirection.
@@ -420,7 +420,7 @@ int MuscleForceDirection::record(const SimTK::State& s) {
         for (int k = 0; k < PFDs.getSize(); k++) { delete PFDs[k]; }
     }
 
-    return (0);
+    return 0;
 }
 
 // BEGIN
@@ -437,7 +437,7 @@ int MuscleForceDirection::begin(SimTK::State& s) {
     int status = 0;
     if (_storeDir.getSize() <= 0) { status = record(s); }
 
-    return (status);
+    return status;
 }
 // STEP
 
@@ -446,7 +446,7 @@ int MuscleForceDirection::step(const SimTK::State& s, int stepNumber) {
 
     record(s);
 
-    return (0);
+    return 0;
 }
 
 // END
@@ -455,7 +455,7 @@ int MuscleForceDirection::end(SimTK::State& s) {
 
     record(s);
 
-    return (0);
+    return 0;
 }
 
 // Print results.
@@ -485,7 +485,7 @@ int MuscleForceDirection::printResults(const string& aBaseName,
                              aDT, aExtension);
     }
 
-    return (0);
+    return 0;
 }
 
 // UTILITIES Utilities implemented by Luca Modenese (check on 15th March 2012).
@@ -495,8 +495,8 @@ int MuscleForceDirection::printResults(const string& aBaseName,
 bool MuscleForceDirection::isMuscleAttachedToBody(const Muscle& aMuscle,
                                                   const string& aBodyName) {
     bool Attached = false;
-    OpenSim::GeometryPath aGeometryPath = aMuscle.getGeometryPath();
-    OpenSim::PathPointSet aPointSet = aGeometryPath.getPathPointSet();
+    const auto& aGeometryPath = aMuscle.getGeometryPath();
+    const auto& aPointSet = aGeometryPath.getPathPointSet();
     int FinalPointIndex = aPointSet.getSize() - 1;
 
     /* ---------NOTE--------------------------------------------
@@ -517,7 +517,7 @@ bool MuscleForceDirection::isMuscleAttachedToBody(const Muscle& aMuscle,
 Array<int> MuscleForceDirection::getMusclesIndexForBody(
         Model* model, const Array<std::string>& bodyNames) {
     // Entire muscleset
-    const Set<Muscle> muscles = model->getMuscles();
+    const auto& muscles = model->getMuscles();
     Array<int> musclesIndexForBody;
 
     // CASE 1: the 'all' flag is considered: all muscles will be analyzed.
@@ -532,10 +532,10 @@ Array<int> MuscleForceDirection::getMusclesIndexForBody(
     else {
         int k = 0, n = 0;
 
-        OpenSim::Array<int> MusclesIndexForBody_temp;
-        // OpenSim::Set<OpenSim::Muscle>  muscles = _model->getMuscles();
+        Array<int> MusclesIndexForBody_temp;
+        // Set<Muscle>  muscles = _model->getMuscles();
         for (int n_body = 0; n_body < bodyNames.getSize(); ++n_body) {
-            std::string aBodyName = bodyNames.get(n_body);
+            auto aBodyName = bodyNames.get(n_body);
 
             /*----------------NOTE----------------------------------------------
             Here an array of indexes MusclesIndexForBody_temp is created
@@ -599,7 +599,7 @@ void MuscleForceDirection::getEffectiveAttachments(
     --------------------------------------------*/
 
     const auto& InitialBody = aPFDs[0]->frame();
-    std::string InitialBodyName = InitialBody.getName();
+    auto InitialBodyName = InitialBody.getName();
     // int effecInsertProx;
     for (int n = 0; n < N_points; n++) {
         const auto& FollowBody = aPFDs[n]->frame();
@@ -615,7 +615,7 @@ void MuscleForceDirection::getEffectiveAttachments(
     is found. The previous point is the effective insertion.
     --------------------------------------------*/
     const auto& FinalBody = aPFDs[N_points - 1]->frame();
-    std::string FinalBodyName = FinalBody.getName();
+    auto FinalBodyName = FinalBody.getName();
     for (int n = N_points - 1; n >= 0; n--) {
         const auto& PreviousBody = aPFDs[n]->frame();
         if (FinalBodyName != PreviousBody.getName()) {
@@ -626,8 +626,8 @@ void MuscleForceDirection::getEffectiveAttachments(
 }
 
 // NormalizeVec3 is an inline function to calculate the norm of a vector Vec3.
-inline void MuscleForceDirection::NormalizeVec3(SimTK::Vec3& v1,
-                                                SimTK::Vec3& rNormv1) {
+void MuscleForceDirection::NormalizeVec3(SimTK::Vec3& v1,
+                                         SimTK::Vec3& rNormv1) {
     double Magnitude =
             sqrt(pow(v1[0], 2.0) + pow(v1[1], 2.0) + pow(v1[2], 2.0));
     rNormv1 = v1 / Magnitude;
