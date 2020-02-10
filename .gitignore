@@ -1,3 +1,8 @@
 *.log
 *.asv
 *.*~
+*.clangd/
+/CPP/.dir-locals.el
+CPP/build/
+/CPP/compile_commands.json
+/CPP/install/
