@@ -22,6 +22,8 @@ Effective muscle lines of actions are those determining the effective mechanical
 A typical example is a muscle including _via points_ or _wrapping surface_, for example the gastronemius, that can alter the muscle lines of action substantially between the first segment of the muscle and the last segment attached to a certain bone.
 ![anat_vs_effect](https://github.com/modenaxe/MuscleForceDirection/blob/master/images/anatomical_vs_effective.png)
 
+A good explanation of this difference is available in section 5.4.3 of Yamaguchi's book `Dynamic Modeling of Musculoskeletal Motion: A Vectorized Approach for Biomechanical Analysis in Three Dimensions` entitled `EFFECTIVE ORIGIN AND INSERTION POINTS`.
+
 # Plugin options
 
 Using the plugin setup you can decide:
@@ -75,22 +77,18 @@ but a better example of use is provided in this other open access [paper](https:
 }
 ```
 
-# Limitations
-* The C++ plugin has not been updated in a while, and it is not compatible with OpenSim 4.0.
-
 # How to contribute
 Feel free of contributing as by standard [GitHub workflow](https://guides.github.com/activities/forking/):
 1. forking this repository
 2. creating your own branch, where you make your modifications and improvements
 3. once you are happy with the new feature you have implemented create a pull request
 
-# Resources
+## Resources for learning how to contribute
 * If you want to contribute but you are not familiar with [Git](https://git-scm.com/), the [Software Carpentry Lessons](https://swcarpentry.github.io/git-novice/) are a perfect place to start with Git and GitHub.
 * If you know how to use git but you are not familiar with GitHub, you can check resources like ["First Contributions"](https://github.com/firstcontributions/first-contributions) to learn how to contribute to existing projects.
 
-# Additional Resources
+# Resource on combining finite element and musculoskeletal models
 * OpenSim Webinar: ["Interfacing Musculoskeletal and Finite Element Models to Study Bone Structure & Adaptation"](https://www.youtube.com/watch?v=0e6vQV_ioCI)
-* "Dynamic Modeling of Musculoskeletal Motion: A Vectorized Approach for Biomechanical Analysis in Three Dimensions" by G.T. Yamaguchi
 
 # Contributors
 Several researchers have contributed to this package:
