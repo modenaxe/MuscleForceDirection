@@ -1,16 +1,16 @@
 # Overview
 
-The Muscle Force Direction plugin extends the functionalities of [OpenSim](https://simtk.org/projects/opensim/) by making convenient to extract the muscle lines of action.
-It is provided as a C++ plugin that can be loaded through the main OpenSim user interface or called by MATLAB.
-Leveraging the OpenSim Application Programming Interface (API) it is also provided as MATLAB toolbox.
+The Muscle Force Direction plugin extends the functionalities of [OpenSim](https://simtk.org/projects/opensim/) providing a straighforward interface to extract the muscle lines of action.
+The source code of the plugin is provided in the main repository and a dll that can be loaded through the main OpenSim user interface is available through the `Releases` tab. 
+Leveraging the OpenSim Application Programming Interface (API), we also provide MATLAB scripts that replicate the plugin functionalities.
 
 # Background
 
-If you are using the internal forces estimated by musculoskeletal models as load sets in finite element models you find that you have few options:
+If you are using the internal forces estimated by musculoskeletal models as load sets in finite element models you find that you have few options to compute the direction of each force vector:
 1. use a PointKinematics analysis on the points of interest of your line of action, compute the force versor for the kinematic frame of interest
 2. use the PointForceDirection class and search for the segment of the muscle line of action that you are interested in.
 
-The MuscleForceDirection plugin (MFD plugin for short) tries to streamline this operations and make easier to extract muscle forces and apply them to finite element models.
+The `MuscleForceDirection plugin` (`MFD` plugin for short) tries to streamline this operations and make easier to extract muscle forces and apply them to finite element models.
 
 ![FE_workflow](https://github.com/modenaxe/MuscleForceDirection/blob/master/images/plugin_workflow.png)
 
@@ -27,24 +27,26 @@ A typical example is a muscle including _via points_ or _wrapping surface_, for 
 Using the plugin setup you can decide:
 1. the body/bodies of interest on which to run the MFD analysis
 2. the reference system in which you want to express the line of actions
-3. choose if you want to extract the "anatomical" lines of action or the effective lines of action.
+3. choose if you want to extract the "anatomical" lines of action or the "effective" lines of action.
 
 # Installation
 * For compiling the C++ plugin, follow the instructions available on the [OpenSim Developers' Guide](https://simtk-confluence.stanford.edu/display/OpenSim/Developer%27s+Guide), where you can also find some examples.
 * For installing the MFD plugin for use in the OpenSim GUI follow the same procedure to install other plugins:
 	* place the plugin in the `plugins` folder
 	* restart OpenSim
-* For using the MATLAB toolbox, include the MATLAB folder in your path.
+* For using the MATLAB scripts (OpenSim version ), you need to:
+	* ensure that the OpenSim API are correctly installed. Please refer to the OpenSim [documentation](https://simtk-confluence.stanford.edu/display/OpenSim/Scripting+with+Matlab).
+	* include the MATLAB folder in your path.
+	* check the provided examples.
 
-# Examples of use 
+# [WORK IN PROGRESS] Examples of use 
 
 There will be examples of how to call the plugin from Matlab etc.
 
 
-
 # Publications
 
-The plugin was originally described in the Appendix of [this publication](https://github.com/modenaxe/MuscleForceDirection/blob/master/doc/papers/van%20Arkel%20et%20al.%20J%20Orthop%20Res%202013.pdf):
+The plugin was originally described in the Appendix of [this open access publication](https://github.com/modenaxe/MuscleForceDirection/blob/master/doc/papers/van%20Arkel%20et%20al.%20J%20Orthop%20Res%202013.pdf):
 
 ```bibtex
 @article{van2013hip,
@@ -59,7 +61,7 @@ The plugin was originally described in the Appendix of [this publication](https:
 }
 ```
 
-A better example of use is however provided [here](https://github.com/modenaxe/MuscleForceDirection/blob/master/doc/papers/Phillips%20et%20al.%20Inter%20Biomech%202015.pdf):
+but a better example of use is provided in this other open access [paper](https://github.com/modenaxe/MuscleForceDirection/blob/master/doc/papers/Phillips%20et%20al.%20Inter%20Biomech%202015.pdf):
 ```bibtex
 @article{phillips2015femoral,
   title={Femoral bone mesoscale structural architecture prediction using musculoskeletal and finite element modelling},
@@ -86,22 +88,18 @@ Feel free of contributing as by standard [GitHub workflow](https://guides.github
 * If you want to contribute but you are not familiar with [Git](https://git-scm.com/), the [Software Carpentry Lessons](https://swcarpentry.github.io/git-novice/) are a perfect place to start with Git and GitHub.
 * If you know how to use git but you are not familiar with GitHub, you can check resources like ["First Contributions"](https://github.com/firstcontributions/first-contributions) to learn how to contribute to existing projects.
 
-# To Do List
-These are some of the points of development
-
-- [ ] make the C++ plugin compatible with OpenSim 4.0
-- [ ] port the scripting toolbox in Python
-- [ ] finalise the Matlab Toolbox
-- [ ] matlab example
-- [ ] implement proper interfaces with the main finite element packages, e.g. Abaqus, Ansys, FEBio.
-
 # Additional Resources
 * OpenSim Webinar: ["Interfacing Musculoskeletal and Finite Element Models to Study Bone Structure & Adaptation"](https://www.youtube.com/watch?v=0e6vQV_ioCI)
 * "Dynamic Modeling of Musculoskeletal Motion: A Vectorized Approach for Biomechanical Analysis in Three Dimensions" by G.T. Yamaguchi
 
 # Contributors
-In various moments several researchers contributed to the package:
-* Alfred Thibon
-* Friedl De Groote
-* Claudio Pizzolato
-* Ke Song
+Several researchers have contributed to this package:
+* [Luca Modenese](https://github.com/modenaxe): C++, Matlab
+* [Ke Song](https://github.com/KSongGitHub): Matlab update to OpenSim 4.0
+* [Dimitar Stanev](https://github.com/mitkof6): C++ update to OpenSim 4.0
+* [Claudio Pizzolato](https://github.com/cpizzolato): C++ makefiles
+* [Friedl De Groote](https://github.com/FriedlDeGroote): C++ legacy [version](https://github.com/modenaxe/MuscleForceDirection/tree/master/CPP/legacy_code/OpenSim2.4_KULeuven) of v1.0
+* Alfred Thibon: C++
+
+
+
