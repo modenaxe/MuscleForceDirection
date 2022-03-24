@@ -105,6 +105,7 @@ workflow](https://guides.github.com/activities/forking/):
 # Contributors
 Several researchers have contributed to this package:
 * [Luca Modenese](https://github.com/modenaxe): C++, Matlab
+* [John J. Davis IV](https://github.com/johnjdavisiv): Plugin Matlab demo updated to OpenSim 4.2
 * [Ke Song](https://github.com/KSongGitHub): Matlab update to OpenSim 4.0
 * [Dimitar Stanev](https://github.com/mitkof6): C++ update to OpenSim 4.0
 * [Claudio Pizzolato](https://github.com/cpizzolato): C++ makefiles
