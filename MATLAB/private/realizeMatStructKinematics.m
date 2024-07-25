@@ -69,7 +69,7 @@ for n_modelCoords = 0:N_coordsModel-1
     cur_coordValue = kin_state_angles(n_modelCoords+1);
     
     % assigning the coordinates depending on their motion type
-    switch char(coordsModel.get(n_modelCoords).get_motion_type())
+    switch char(coordsModel.get(n_modelCoords).getMotionType())
         case 'rotational'
             % transform to radiant for angles
             coordsModel.get(n_modelCoords).setValue(state,cur_coordValue*pi/180);
