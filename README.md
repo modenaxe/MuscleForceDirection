@@ -1,3 +1,4 @@
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=modenaxe.muscleforcedirection)
 # Overview
 
 The Muscle Force Direction plugin extends the functionalities of [OpenSim](https://simtk.org/projects/opensim/) providing a straighforward interface to extract the muscle lines of action.
